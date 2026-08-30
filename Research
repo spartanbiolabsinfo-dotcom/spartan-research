@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spartan Biolabs Research Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 2px solid #D4AF37;
+            padding-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .brand-name {
+            color: #D4AF37;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: #999;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .intro {
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid #D4AF37;
+            padding: 20px;
+            margin-bottom: 50px;
+            border-radius: 4px;
+        }
+
+        .intro h2 {
+            color: #D4AF37;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .intro p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .compounds-grid {
+            display: grid;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .compound-card {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid #D4AF37;
+            border-radius: 4px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .compound-card:hover {
+            background: rgba(40, 40, 40, 0.9);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .compound-name {
+            color: #D4AF37;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .compound-summary {
+            color: #bbb;
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .compound-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            color: #D4AF37;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .section-content {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #aaa;
+        }
+
+        .section-content p {
+            margin-bottom: 10px;
+        }
+
+        .section-content ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section-content li {
+            margin-bottom: 6px;
+        }
+
+        .research-links {
+            background: rgba(212, 175, 55, 0.08);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .research-links p {
+            color: #D4AF37;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .research-links a {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+            text-decoration: none;
+            font-size: 12px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .research-links a:hover {
+            background: #D4AF37;
+            color: #1a1a1a;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            color: #666;
+            font-size: 12px;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .disclaimer {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            header {
+                margin-bottom: 40px;
+            }
+
+            .brand-name {
+                font-size: 24px;
+            }
+
+            .logo {
+                font-size: 36px;
+            }
+
+            .compound-card {
+                padding: 20px;
+            }
+
+            .compound-name {
+                font-size: 18px;
+            }
+
+            .research-links a {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+        }
+
+        .back-to-linktree {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .back-to-linktree a {
+            color: #D4AF37;
+            text-decoration: none;
+            font-size: 12px;
+            border: 1px solid #D4AF37;
+            padding: 10px 20px;
+            display: inline-block;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-linktree a:hover {
+            background: #D4AF37;
+            color: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-to-linktree">
+            <a href="https://linktr.ee/spartanbiolabs.info">← Back to Spartan Biolabs</a>
+        </div>
+
+        <header>
+            <div class="logo">⚔️</div>
+            <div class="brand-name">SPARTAN BIOLABS</div>
+            <div class="tagline">Research Without Compromise</div>
+        </header>
+
+        <div class="intro">
+            <h2>Research Hub</h2>
+            <p>Every compound is independently tested. Every batch is verified. This page shows what the research says. Click the links below to read the primary studies yourself — no middleman, no interpretation, just data.</p>
+        </div>
+
+        <div class="compounds-grid">
+            <!-- RETA30 -->
+            <div class="compound-card">
+                <div class="compound-name">RETA30</div>
+                <div class="compound-summary">Triple-agonist peptide that modulates GLP-1, GIP, and glucagon receptors for metabolic research.</div>
+
+                <div class="compound-section">
+                    <div class="section-title">What It Is</div>
+                    <div class="section-content">
+                        <p>39-residue synthetic peptide with triple-receptor activity targeting GLP-1, GIP, and glucagon signaling pathways.</p>
+                    </div>
+                </div>
+
+                <div class="compound-section">
+                    <div class="section-title">Research Status</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Phase 2 clinical data: 22.8-24.2% weight reduction (dose-dependent)</li>
+                            <li>Ongoing Phase 3 trials (TRIUMPH studies)</li>
+                            <li>Multiple peer-reviewed publications documenting mechanism</li>
+                            <li>Supports metabolic research across glucose homeostasis, lipid metabolism, hepatic function</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="research-links">
+                    <p>Research Links</p>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/40563436/" target="_blank">Retatrutide Game Changer (2025)</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/38858523/" target="_blank">Phase 2a MASLD Trial</a>
+                    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12026077/" target="_blank">Meta-Analysis (May 2024)</a>
+                </div>
+            </div>
+
+            <!-- TB500 -->
+            <div class="compound-card">
+                <div class="compound-name">TB500</div>
+                <div class="compound-summary">Thymosin Beta-4: naturally-derived peptide supporting cellular differentiation, tissue repair, and endothelial function.</div>
+
+                <div class="compound-section">
+                    <div class="section-title">What It Is</div>
+                    <div class="section-content">
+                        <p>43-amino acid peptide from human thymic secretions. Supports AC-36 actin sequestering and cellular cofactor activity.</p>
+                    </div>
+                </div>
+
+                <div class="compound-section">
+                    <div class="section-title">Research Status</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>30+ years preclinical research</li>
+                            <li>Phase 1a & 1b trials completed in healthy volunteers</li>
+                            <li>Phase 2 efficacy trials in acute myocardial infarction (completed)</li>
+                            <li>Favorable safety profile with minimal adverse effects</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="research-links">
+                    <p>Research Links</p>
+                    <a href="https://www.mdpi.com/2076-3401/16/12/6202" target="_blank">Scoping Review (March 2026)</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/20943777/" target="_blank">Endothelial Function Study</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/12072014/" target="_blank">Cardiac Remodeling Research</a>
+                    <a href="https://clinicaltrials.gov/study/NCT05984134" target="_blank">Phase 2b AMI Trial</a>
+                </div>
+            </div>
+
+            <!-- BPC-157 -->
+            <div class="compound-card">
+                <div class="compound-name">BPC-157</div>
+                <div class="compound-summary">Pentadecapeptide from gastric proteins supporting tissue repair, collagen synthesis, and angiogenesis across multiple organ systems.</div>
+
+                <div class="compound-section">
+                    <div class="section-title">What It Is</div>
+                    <div class="section-content">
+                        <p>15-amino acid synthetic peptide (GEPPPGKPADDAGLV). Derived from naturally-occurring gastric protein fragment. Molecular weight ~1419 Da.</p>
+                    </div>
+                </div>
+
+                <div class="compound-section">
+                    <div class="section-title">Research Status</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>30+ years preclinical research across tissue repair models</li>
+                            <li>Demonstrated benefits in musculoskeletal, gastrointestinal, cardiovascular systems</li>
+                            <li>Limited human pilot studies (musculoskeletal pain, interstitial cystitis)</li>
+                            <li>Preclinical safety: No serious adverse effects reported</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="research-links">
+                    <p>Research Links</p>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/42198317/" target="_blank">Biopharmaceutical Review (2026)</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/40756949/" target="_blank">Sports Medicine Systematic Review</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/30915550/" target="_blank">Soft Tissue Healing Study</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/32334036/" target="_blank">Preclinical Safety Evaluation</a>
+                </div>
+            </div>
+
+            <!-- TESAMORELIN -->
+            <div class="compound-card">
+                <div class="compound-name">TESAMORELIN</div>
+                <div class="compound-summary">Stabilized GHRH analog that enhances endogenous growth hormone pulsatility and supports metabolic remodeling pathways.</div>
+
+                <div class="compound-section">
+                    <div class="section-title">What It Is</div>
+                    <div class="section-content">
+                        <p>44-amino acid GHRH(1-44) analogue with N-terminal hexenoyl modification. Stimulates endogenous pituitary GH secretion.</p>
+                    </div>
+                </div>
+
+                <div class="compound-section">
+                    <div class="section-title">Research Status</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>FDA-approved (2010) for HIV-associated lipodystrophy</li>
+                            <li>Phase 3 trials: n=806 participants over 52 weeks</li>
+                            <li>Significant visceral fat reductions with sustained benefits</li>
+                            <li>Favorable safety profile; improves glucose metrics without worsening tolerance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="research-links">
+                    <p>Research Links</p>
+                    <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa072375" target="_blank">NEJM: Metabolic Effects</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41545261/" target="_blank">Body Composition Meta-Analysis</a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/20554713/" target="_blank">Phase 3 Clinical Data</a>
+                    <a href="https://clinicaltrials.gov/study/NCT02196831" target="_blank">Liver Fat & Histology Study</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>All research links point to peer-reviewed studies and clinical trials.</p>
+            <p>Every Spartan Biolabs compound is independently tested by Bioviridian.</p>
+            <div class="disclaimer">
+                Research Use Only. Not for human or veterinary use.
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
