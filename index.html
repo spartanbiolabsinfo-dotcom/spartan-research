@@ -834,6 +834,7 @@ function showTab(name){
   document.querySelectorAll(".tabp").forEach(p => p.hidden = p.id !== "tab-" + name);
   document.querySelectorAll(".opstabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
   $("invBar").hidden = name !== "invoice";
+  try { history.replaceState(null, "", name === "invoice" ? location.pathname : "#" + name); } catch (e) {}
   if (name === "orders") renderOrders();
   if (name === "stock") renderStock();
   if (name === "supply") renderSupply();
@@ -1364,6 +1365,8 @@ window.OpsSync = (() => {
 })();
 
 renderOrderCount();
+// Refresh stays on the tab you were on (#orders, #stock, #supply)
+{ const t = location.hash.slice(1); if (["orders", "stock", "supply"].includes(t)) showTab(t); }
 </script>
 <script type="module">
 // ===== Spartan Ops cloud: Firebase sign-in + Firestore sync =====
