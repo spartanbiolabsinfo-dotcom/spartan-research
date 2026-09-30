@@ -369,15 +369,6 @@
       <p class="hint">Shipped orders take their items out of stock automatically. Cancelling a shipped order puts them back.</p>
     </div>
     <div class="stklist" id="stkList"></div>
-    <div class="step backup">
-      <h2>Backup</h2>
-      <p class="hint">Everything syncs to the cloud for both of you. A backup file is an extra copy you keep yourself. Restoring one replaces what's in Ops for everyone.</p>
-      <div class="btns">
-        <button type="button" id="exportBtn">Save backup</button>
-        <label class="filebtn">Restore backup<input id="importFile" type="file" accept="application/json,.json"></label>
-      </div>
-      <div id="importConfirm" class="confirm" hidden><span id="importInfo"></span><div class="btns"><button type="button" class="ghost" id="importNo">Cancel</button><button type="button" class="primary" id="importYes">Replace with backup</button></div></div>
-    </div>
   </section>
 </div>
 
@@ -1170,32 +1161,6 @@ $("supList").addEventListener("click", e => {
   if (act === "nodel") card.querySelector(".ord-confirm").hidden = true;
   if (act === "yesdel") { supply = supply.filter(x => x !== o); saveSupply(); renderSupply(); toast("Deleted"); }
 });
-
-// ----- Backup -----
-$("exportBtn").onclick = async () => {
-  const data = JSON.stringify({ app: "spartan-ops", exported: new Date().toISOString(), orders, inventory: inv, supply, settings: load(SETTINGS_KEY, {}) }, null, 2);
-  const name = `spartan-ops-backup-${today()}.json`;
-  const file = new File([data], name, { type: "application/json" });
-  if (navigator.canShare && navigator.canShare({ files: [file] })) { try { await navigator.share({ files: [file], title: name }); return; } catch (e) { if (e && e.name === "AbortError") return; } }
-  downloadBlob(file, name); toast("Backup downloaded");
-};
-$("importFile").addEventListener("change", async e => {
-  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
-  try {
-    const j = JSON.parse(await f.text());
-    if (j.app !== "spartan-ops" || !Array.isArray(j.orders)) throw new Error("bad");
-    $("importConfirm").hidden = false; $("importConfirm").dataset.payload = JSON.stringify(j);
-    $("importInfo").textContent = `Backup from ${niceDate(String(j.exported).slice(0, 10))}: ${j.orders.length} orders${Array.isArray(j.supply) ? `, ${j.supply.length} supply orders` : ""}. This replaces everything in Ops, for both of you.`;
-  } catch (err) { toast("That file isn't a Spartan Ops backup"); }
-});
-$("importNo").onclick = () => { $("importConfirm").hidden = true; };
-$("importYes").onclick = () => {
-  const j = JSON.parse($("importConfirm").dataset.payload || "{}");
-  orders = j.orders || []; inv = j.inventory || inv; CATALOG.forEach(p => { if (!inv[p.id]) inv[p.id] = { onHand: 0, lowAt: 10 }; });
-  if (Array.isArray(j.supply)) { supply = j.supply; saveSupply(); }
-  saveOrders(); saveInv(); if (j.settings) { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(j.settings)); } catch (e) {} loadSettings(); }
-  $("importConfirm").hidden = true; renderOrderCount(); renderStock(); toast("Backup restored");
-};
 
 // ----- Lock -----
 $("lockBtn").onclick = () => OpsSync.signOutNow();
