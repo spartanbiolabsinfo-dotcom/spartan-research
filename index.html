@@ -825,7 +825,7 @@ function showTab(name){
   document.querySelectorAll(".tabp").forEach(p => p.hidden = p.id !== "tab-" + name);
   document.querySelectorAll(".opstabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
   $("invBar").hidden = name !== "invoice";
-  try { history.replaceState(null, "", name === "invoice" ? location.pathname : "#" + name); } catch (e) {}
+  try { history.replaceState(history.state, "", name === "invoice" ? location.pathname : "#" + name); } catch (e) {}
   if (name === "orders") renderOrders();
   if (name === "stock") renderStock();
   if (name === "supply") renderSupply();
@@ -879,7 +879,10 @@ function loadOrderIntoInvoice(o, asReceipt){
   document.querySelector(`input[name=docType][value=${receipt ? "receipt" : "invoice"}]`).checked = true;
   $("paidDate").value = o.paidDate || today(); $("tracking").value = o.tracking || "";
   msgDiscounts = null; $("paste").value = ""; flash("parseMsg", `Loaded ${o.id} from Orders.`, "ok");
-  renderItems(); update(); showTab("invoice");
+  renderItems(); update();
+  // coming from Orders: the phone's back button returns to Orders instead of leaving the site
+  if (!$("tab-orders").hidden) { try { history.pushState({ fromOrders: 1 }, "", location.pathname); } catch (e) {} }
+  showTab("invoice");
 }
 
 // ----- Share / download the PDF -----
@@ -1023,8 +1026,15 @@ function openLabel(o){
   $("lblPkg").textContent = `Order ${o.id} · ${vialCount(o)} item${vialCount(o) === 1 ? "" : "s"} · UPS (up to 6×4×3 in, 4 lb for Simple Rate)`;
   $("lblTrack").value = o.tracking || ""; $("lblMsg").textContent = "";
   $("labelDlg").hidden = false; document.body.classList.add("modal-open"); $("lblCopy").focus();
+  if (!(history.state && history.state.label)) { try { history.pushState({ label: 1 }, "", location.href); } catch (e) {} }
 }
-function closeLabel(){ $("labelDlg").hidden = true; document.body.classList.remove("modal-open"); labelOrder = null; }
+function hideLabel(){ $("labelDlg").hidden = true; document.body.classList.remove("modal-open"); labelOrder = null; }
+function closeLabel(){ hideLabel(); if (history.state && history.state.label) history.back(); }
+// phone back button: close the label first, otherwise go back to the tab in the address
+addEventListener("popstate", () => {
+  if (!$("labelDlg").hidden) { hideLabel(); return; }
+  const t = location.hash.slice(1); showTab(["orders", "stock", "supply"].includes(t) ? t : "invoice");
+});
 $("lblClose").onclick = closeLabel;
 $("labelDlg").addEventListener("click", e => { if (e.target === $("labelDlg")) closeLabel(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("labelDlg").hidden) closeLabel(); });
